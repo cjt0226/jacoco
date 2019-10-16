@@ -9,7 +9,7 @@ node('codecoverage'){
         }
     }
     stage('compile spring'){
-        dir('springboot'){
+        dir('spring-boot-test/springboot'){
             sh "mvn compile"
         }
     }

@@ -8,4 +8,9 @@ node('codecoverage'){
             git url:'https://github.com/cjt0226/spring-boot-test.git'
         }
     }
+    stage('compile spring'){
+        dir('springboot'){
+            sh "mvn compile"
+        }
+    }
 }

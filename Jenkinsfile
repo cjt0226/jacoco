@@ -13,4 +13,7 @@ node('codecoverage'){
             sh "mvn compile"
         }
     }
+    stage('fecth codecoverage'){
+        sh "ant dump"
+    }
 }

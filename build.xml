@@ -12,7 +12,7 @@
     <property name="reportfolderPath" value="${jacocoPath}/report"/>
 
     <!--远程tomcat服务的ip地址-->
-    <property name="server_ip" value="10.64.84.106"/>ß
+    <property name="server_ip" value="10.64.84.106"/>
 
     <!--前面配置的远程tomcat服务打开的端口，要跟上面配置的一样-->
     <!--这个端口有别于tomcat的端口，相当于是嵌在tomcat里的监视器-->

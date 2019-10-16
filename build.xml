@@ -16,7 +16,7 @@
 
     <!--前面配置的远程tomcat服务打开的端口，要跟上面配置的一样-->
     <!--这个端口有别于tomcat的端口，相当于是嵌在tomcat里的监视器-->
-    <property name="server_port" value="4399"/>
+    <property name="server_port" value="8082"/>
 
 
     <!--源代码路径-->

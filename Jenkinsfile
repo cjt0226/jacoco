@@ -16,4 +16,7 @@ node('codecoverage'){
     stage('fecth codecoverage'){
         sh "ant dump"
     }
+    stage('generate report'){
+        jacoco()
+    }
 }

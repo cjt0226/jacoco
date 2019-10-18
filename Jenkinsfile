@@ -19,4 +19,7 @@ node('codecoverage'){
     stage('generate report'){
         jacoco()
     }
+    stage('sonarqube'){
+        sh "sonar-scanner"
+    }
 }

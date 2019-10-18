@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<project name="jacoco" xmlns:jacoco="antlib:org.jacoco.ant" default="jacoco">
+    <!--Jacoco的安装路径-->
+    <property name="jacocoPath" value="~/Library/jacoco"/>
+    <property name="projectPath" value="~/Documents/Project/LocalTest/sonarqube"/>
+    <!-- <property name="node-workspace" value="/home/jenkins/workspace"/> -->
+    <property name="jacocoantPath" value="${jacocoPath}/lib/jacocoant.jar"/>
+
+    <!--最终生成.exec文件的路径，Jacoco就是根据这个文件生成最终的报告的-->
+    <property name="jacocoexecPath" value="${projectPath}/jacoco.exec"/>
+
+    <!--生成覆盖率报告的路径，直接放在tomct下面，外界直接访问-->
+    <property name="reportfolderPath" value="${projectPath}/report"/>
+
+    <!--远程tomcat服务的ip地址-->
+    <property name="server_ip" value="127.0.0.1"/>
+
+    <!--前面配置的远程tomcat服务打开的端口，要跟上面配置的一样-->
+    <!--这个端口有别于tomcat的端口，相当于是嵌在tomcat里的监视器-->
+    <property name="server_port" value="8082"/>
+
+
+    <!--源代码路径-->
+    <!--<property name="checkOrderSrcpath" value="/root/LoginDemo4/src/main/java/" />-->
+    <!--可以配置多个源代码-->
+    <property name="checkOrderSrcPath" value="${projectPath}/spring-boot-test/springboot/src/main/java"/>
+
+
+    <!--.class文件路径-->
+    <!--跑的是class，标注的是源码？-->
+    <!--<property name="checkOrderClasspath" value="/root/wftest/target/classes/com/hundsun" />-->
+    <property name="checkOrderClasspath" value="${projectPath}/spring-boot-test/springboot/target/classes"/>
+
+    <!--合并报告路径-->
+    <property name="mergePath" value="${projectPath}/" />
+
+
+
+    <!--让ant知道去哪儿找Jacoco-->
+    <taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+        <classpath path="${jacocoantPath}" />
+    </taskdef>
+
+    <!--dump任务:
+        根据前面配置的ip地址，和端口号，
+        访问目标tomcat服务，并生成.exec文件。-->
+    <target name="dump">
+        <jacoco:dump address="${server_ip}" reset="false" destfile="${jacocoexecPath}" port="${server_port}" append="true"/>
+    </target>
+    <!--将路径下的exec文件全部合并，并存放到destfile中-->
+    <target name="merge">
+        <jacoco:merge destfile="${projectPath}/merged.exec">
+            <fileset dir="${projectPath}" includes="*.exec"/>
+        </jacoco:merge>
+    </target>
+
+
+
+  <!--jacoco任务:
+      根据前面配置的源代码路径和.class文件路径，
+      根据dump后，生成的.exec文件，生成最终的html覆盖率报告。-->
+  <target name="report">
+    <!--暂时不删除，一旦删除，其他两个的报告也没了--> 
+      <delete dir="${reportfolderPath}" />
+      <mkdir dir="${reportfolderPath}" /> 
+        <jacoco:report>
+            <executiondata>
+                <file file="${jacocoexecPath}" />
+            </executiondata>             
+            <structure name="jacoco report">          
+                <group name="Check Order related">           
+                    <classfiles>
+                        <fileset dir="${checkOrderClasspath}" />
+                        <!-- 过滤不必要的文件 -->
+                          <!-- <exclude name="**/R.class"/>
+                          <exclude name="**/R$*.class"/>
+                          <exclude name="**/*$ViewInjector*.*"/>
+                          <exclude name="**/BuildConfig.*"/>
+                          <exclude name="**/Manifest*.*"/> -->
+                    </classfiles>
+                    <sourcefiles encoding="utf-8">
+                        <fileset dir="${checkOrderSrcPath}" />
+                    </sourcefiles>
+                </group>              
+            </structure>
+          <html destdir="${reportfolderPath}" encoding="utf-8" />    
+          <csv destfile="${reportfolderPath}/coverage-report.csv" encoding="UTF-8" />
+          <xml destfile="${reportfolderPath}/coverage-report.xml" encoding="UTF-8"/>          
+        </jacoco:report>
+  </target>
+</project>

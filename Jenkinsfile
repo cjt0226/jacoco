@@ -20,6 +20,9 @@ node('codecoverage'){
         jacoco()
     }
     stage('sonarqube'){
-        sh "/opt/sonar-scanner-4.2.0.1873-linux/bin/sonar-scanner"
+        def scannerHome = tool 'SonarQube Scanner';
+        withSonarQubeEnv() {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
     }
 }

@@ -20,6 +20,6 @@ node('codecoverage'){
         jacoco()
     }
     stage('sonarqube'){
-        sh "sonar-scanner"
+        sh "/opt/sonar-scanner-4.2.0.1873-linux/bin/sonar-scanner"
     }
 }

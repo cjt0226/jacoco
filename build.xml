@@ -3,7 +3,7 @@
     <!--Jacoco的安装路径-->
     <property name="jacocoPath" value="/opt/jacoco"/>
     <property name="node-workspace" value="/home/jenkins/workspace"/>
-    <property name="sonar-workspace" value="${node-workspace}/sonarqube">
+    <property name="sonar-workspace" value="${node-workspace}/sonarqube"/>
     <property name="jacocoantPath" value="${jacocoPath}/lib/jacocoant.jar"/>
 
     <!--最终生成.exec文件的路径，Jacoco就是根据这个文件生成最终的报告的-->
